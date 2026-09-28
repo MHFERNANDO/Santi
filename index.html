@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>En memoria de Jorge Santiago Jaramillo Hervas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="locked">
+  <canvas id="luz" aria-hidden="true"></canvas>
+
+  <!-- Portada: una vela que se enciende al tocarla -->
+  <section id="intro">
+    <button id="vela-intro" class="vela-grande" aria-label="Encender la vela para entrar">
+      <span class="llama"></span><span class="mecha"></span><span class="cera"></span>
+    </button>
+    <p>Toca la vela para entrar</p>
+  </section>
+
+  <main id="sitio">
+    <section class="hero">
+      <div class="marco">
+        <img src="img/foto.jpeg" alt="Jorge Santiago Jaramillo Hervas">
+      </div>
+      <div class="texto">
+        <p class="pre">En memoria de</p>
+        <h1>Jorge Santiago<br>Jaramillo Hervas</h1>
+        <p class="frase">Tu corazón siempre estuvo dispuesto a dar, ayudar y acompañar. Hoy somos nosotros quienes te acompañamos con todo nuestro amor.</p>
+        <a href="#detalles" class="bajar" aria-label="Ver horarios">Horarios y ubicación</a>
+      </div>
+    </section>
+
+    <section id="detalles" class="detalles">
+      <div class="dia"><h2>Martes</h2><p>A partir de las 11 am</p></div>
+      <div class="dia"><h2>Miércoles</h2><p>Eucaristía, 9 am</p></div>
+      <div class="lugar">
+        <div class="lugar-txt">
+          <h3>Ubicación</h3>
+          <p>Camposanto Santa Ana</p>
+          <p class="nota">La Eucaristía será transmitida por Facebook.</p>
+        </div>
+        <div class="mapa">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57943.61724949587!2d-79.06150475385262!3d-2.913431651001404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91cd184b251e972f%3A0xe365e385190b8055!2sCamposanto%20Santa%20Ana!5e1!3m2!1ses-419!2sec!4v1790571190163!5m2!1ses-419!2sec" title="Mapa del Camposanto Santa Ana" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Muro de velas: lo único e interactivo -->
+    <section class="muro">
+      <h2>Enciende una luz por él</h2>
+      <p class="sub">Cada vela queda encendida con tu nombre y tu mensaje. Toca una vela para leerlo.</p>
+      <form id="form-vela" autocomplete="off">
+        <input id="nombre" type="text" maxlength="40" placeholder="Tu nombre" required>
+        <textarea id="mensaje" maxlength="200" rows="3" placeholder="Escribe un recuerdo o unas palabras para la familia"></textarea>
+        <button type="submit">Encender vela</button>
+      </form>
+      <div id="velas" aria-live="polite"></div>
+      <div id="mensajes"></div>
+      <div id="lectura" role="dialog" aria-live="polite" hidden>
+        <button id="cerrar" type="button" aria-label="Cerrar">×</button>
+        <p id="lectura-msg"></p><span id="lectura-nom"></span>
+      </div>
+      <p id="estado" role="status"></p>
+      <p id="contador"></p>
+    </section>
+
+    <footer><p>Gracias por acompañarnos.</p></footer>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
