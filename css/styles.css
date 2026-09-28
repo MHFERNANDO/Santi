@@ -9,9 +9,8 @@ body.locked{overflow:hidden}
 #luz{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
 
 /* Portada */
-#intro{position:fixed;inset:0;z-index:10;background:var(--noche);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;color:var(--crema);transition:opacity 1.6s ease,visibility 1.6s}
+#intro{position:fixed;inset:0;z-index:10;background:var(--noche);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;color:var(--crema)}
 #intro p{font-style:italic;opacity:.75;letter-spacing:.04em;transition:opacity .6s}
-#intro.abierto{opacity:0;visibility:hidden}
 #intro.encendida p{opacity:0}
 
 /* Vela */
@@ -22,17 +21,14 @@ body.locked{overflow:hidden}
 .llama{position:absolute;bottom:128px;left:50%;width:26px;height:56px;margin-left:-13px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
   background:radial-gradient(ellipse at 50% 75%,#fff6d6 0,var(--ambar) 45%,var(--brasa) 80%,transparent 100%);
   transform:scale(0);transform-origin:50% 100%;filter:blur(.4px);box-shadow:0 0 50px 18px rgba(242,178,92,.35);transition:transform .9s cubic-bezier(.2,1.4,.4,1)}
-.encendida .llama,.vela .llama{transform:scale(1);animation:parpadeo 2.4s ease-in-out infinite}
 @keyframes parpadeo{0%,100%{transform:scale(1) skewX(0)}25%{transform:scale(1.04,.96) skewX(2deg)}50%{transform:scale(.97,1.05) skewX(-2deg)}75%{transform:scale(1.02,.98) skewX(1deg)}}
 
 /* Sitio */
-#sitio{position:relative;z-index:2;opacity:0;transition:opacity 2s ease .8s}
-body:not(.locked) #sitio{opacity:1}
+#sitio{position:relative;z-index:2}
 
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1.15fr;gap:4vw;align-items:center;padding:6vh 7vw;max-width:1300px;margin:auto}
 .marco{position:relative;width:min(100%,430px);aspect-ratio:3/4.3;justify-self:center}
 .marco img{width:100%;height:100%;object-fit:cover;border-radius:999px;border:1px solid var(--topo);box-shadow:0 30px 60px -25px rgba(59,42,36,.55);filter:sepia(.12)}
-body:not(.locked) 
 .texto{text-align:center}
 .pre{font-style:italic;font-size:1.25rem;color:var(--topo)}
 h1{font-family:var(--script);font-weight:400;font-size:clamp(3.2rem,7vw,6rem);line-height:1.05;margin:.3em 0 .5em}
@@ -85,7 +81,7 @@ footer{background:var(--noche);color:var(--topo);text-align:center;padding:0 0 4
     .detalles{grid-template-columns:1fr}
   .dia+.dia{border-left:0;border-top:1px solid #d9cbb8;padding-top:1.5rem}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
 /* ---- Móvil ---- */
 #intro{height:100dvh}
 input,textarea,form button{font-size:16px}
@@ -113,3 +109,85 @@ form button:disabled{opacity:.6}
   #velas{gap:2rem 1rem;margin-top:3rem}
 }
 @media(max-width:380px){.vela-grande{transform:scale(.9)}}
+
+/* ===== Animaciones ===== */
+@property --r{syntax:'<length>';inherits:false;initial-value:-70px}
+/* Portada: la luz de la vela abre la puerta */
+#intro{--r:-70px;background:radial-gradient(circle at 50% 44%,transparent var(--r),var(--noche) calc(var(--r) + 70px))}
+#intro.abierto{animation:abre 2.8s cubic-bezier(.6,0,.3,1) forwards,apaga .8s ease 2.2s forwards}
+#intro.abierto{pointer-events:none}
+#intro.abierto>*{opacity:0;transition:opacity 1s}
+@keyframes abre{to{--r:170vmax}}
+@keyframes apaga{to{opacity:0}}
+.halo{position:absolute;left:50%;top:calc(50% - 100px);width:min(150vw,900px);aspect-ratio:1;transform:translate(-50%,-50%) scale(0);background:radial-gradient(circle,rgba(242,178,92,.3),rgba(242,178,92,.09) 40%,transparent 68%);transition:transform 2.6s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.encendida .halo{transform:translate(-50%,-50%) scale(1);animation:respira 3.4s ease-in-out 2.6s infinite}
+@keyframes respira{50%{transform:translate(-50%,-50%) scale(1.06)}}
+/* Llama más viva: núcleo claro + baile irregular */
+.llama::before{content:'';position:absolute;left:50%;bottom:4%;width:46%;height:52%;margin-left:-23%;border-radius:50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 80%,#fff,#ffe9a8 70%,transparent)}
+.vela .llama{transform:scale(0)}
+.encendida .llama,.vela.on .llama{transform:scale(1);animation:baila 3.2s ease-in-out infinite}
+.vela.on.avivar .llama{animation:none;transform:scale(1.4,1.6)}
+@keyframes baila{0%,100%{transform:scale(1) rotate(0)}12%{transform:scale(1.05,.94) rotate(-1.5deg)}27%{transform:scale(.96,1.07) rotate(2deg)}41%{transform:scale(1.03,.98) rotate(-2.5deg)}58%{transform:scale(.98,1.05) rotate(1deg)}73%{transform:scale(1.04,.95) rotate(-1deg)}86%{transform:scale(.97,1.04) rotate(2deg)}}
+.vela::after{content:'';position:absolute;left:50%;bottom:30px;width:130px;height:130px;margin-left:-65px;background:radial-gradient(circle,rgba(242,178,92,.2),transparent 65%);opacity:0;transition:opacity 1.6s;pointer-events:none}
+.vela.on::after{opacity:1}
+
+/* Portada del sitio: el arco se levanta, el nombre se escribe */
+.marco img{clip-path:inset(100% 0 0 0);transform:scale(1.18)}
+body:not(.locked) .marco img{animation:foto 2.4s cubic-bezier(.3,.7,.2,1) .5s forwards}
+@keyframes foto{to{clip-path:inset(-90px);transform:scale(1)}}
+.marco::before{content:'';position:absolute;inset:-14px;border:1px solid rgba(138,116,102,.55);border-radius:999px;opacity:0;transform:scale(.92);pointer-events:none}
+body:not(.locked) .marco::before{animation:anillo 2s ease 2.2s forwards,resp 5s ease-in-out 4.2s infinite}
+@keyframes anillo{to{opacity:1;transform:scale(1)}}
+@keyframes resp{50%{transform:scale(1.03);opacity:.55}}
+.pre,.frase,.bajar{opacity:0}
+body:not(.locked) .pre{animation:aparece 1.6s ease 1.9s forwards}
+body:not(.locked) .frase{animation:aparece 1.8s ease 4.3s forwards}
+body:not(.locked) .bajar{animation:aparece 1.5s ease 5.6s forwards}
+@keyframes aparece{to{opacity:1}}
+.w{display:inline-block;white-space:nowrap}
+.l{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(.3em) scale(.9)}
+body:not(.locked) .l{animation:letra 1.2s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(2.3s + var(--i)*60ms)}
+@keyframes letra{to{opacity:1;filter:blur(0);transform:none}}
+
+/* Al bajar: cada cosa aparece cuando llegas a ella */
+.rev{opacity:0;transform:translateY(18px);transition:opacity 1.3s ease,transform 1.3s cubic-bezier(.2,.7,.2,1)}
+.rev.visto{opacity:1;transform:none}
+.dia:nth-child(2){transition-delay:.25s}
+.mapa.rev{transform:scale(.96);clip-path:inset(14% 14% round 26px);transition:opacity 1.2s ease,transform 1.6s cubic-bezier(.2,.7,.2,1),clip-path 1.6s cubic-bezier(.2,.7,.2,1)}
+.mapa.rev.visto{transform:none;clip-path:inset(0 round 14px)}
+@media(max-width:780px){.marco::before{border-color:rgba(242,178,92,.5)}}
+@media(prefers-reduced-motion:reduce){
+  .l,.pre,.frase,.bajar,.rev{opacity:1!important;filter:none!important;transform:none!important}
+  .marco img,.mapa.rev{clip-path:none!important;transform:none!important}
+  .marco::before{opacity:1!important;transform:none!important}
+  #intro.abierto{display:none}
+}
+
+/* ===== Velas: llama, mecha y cera apiladas (siempre alineadas) ===== */
+.vela-grande,.vela{display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.vela-grande{width:60px;height:auto}
+.vela{width:44px;height:auto;padding:0}
+.vela-grande .llama,.vela .llama{position:relative;bottom:auto;left:auto;margin:0 0 -5px;z-index:2}
+.vela-grande .llama{width:26px;height:56px}
+.vela .llama{width:13px;height:30px;margin-bottom:-3px}
+.vela-grande .mecha,.vela .mecha{position:relative;bottom:auto;left:auto;margin:0;border-radius:2px 2px 0 0;background:linear-gradient(#6b4a3c,#1c130f);z-index:1;transition:background .6s}
+.vela-grande .mecha{width:3px;height:16px}
+.vela .mecha{width:2px;height:9px}
+.encendida .mecha,.vela.on .mecha{background:linear-gradient(#ffb454,#3a2418 55%,#1c130f)}
+.vela-grande .cera,.vela .cera{position:relative;bottom:auto;left:auto;right:auto;z-index:1;box-shadow:inset -6px 0 10px -6px rgba(90,60,40,.35);transition:box-shadow 1.2s}
+.vela-grande .cera{width:56px;height:120px;border-radius:8px 8px 5px 5px}
+.vela .cera{width:22px;height:48px;border-radius:5px 5px 3px 3px}
+.encendida .cera,.vela.on .cera{box-shadow:inset -6px 0 10px -6px rgba(90,60,40,.35),inset 0 12px 14px -8px rgba(242,178,92,.55)}
+.vela::after{top:-40px;bottom:auto}
+
+/* ===== La mecha se pone al rojo y luego crece la llama ===== */
+.vela-grande .mecha,.vela .mecha{background:linear-gradient(#b39580,#4a352b)}
+.encendida .mecha,.vela.on .mecha{background:linear-gradient(#ffe2a8,#ff8a2b 45%,#4a2a18);box-shadow:0 0 6px 2px rgba(255,150,60,.85);animation:brasa 1.6s ease-in-out infinite}
+@keyframes brasa{50%{box-shadow:0 0 10px 4px rgba(255,150,60,.95)}}
+.encendida .llama,.vela.on .llama{transition-delay:.35s;animation:baila 3.2s ease-in-out 1.3s infinite}
+
+/* Enlace de la transmisión */
+.nota{max-width:36ch}
+.nota a{color:var(--cafe);font-weight:600;text-decoration:none;border-bottom:1px solid var(--topo);transition:color .3s,border-color .3s}
+.nota a:hover,.nota a:focus-visible{color:#1877f2;border-color:#1877f2}
+.nota small{display:block;margin-top:.5rem;font-size:.85rem;opacity:.85}
