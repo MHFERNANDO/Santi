@@ -71,7 +71,7 @@ function pintar(v) {
 document.getElementById('cerrar').addEventListener('click', () => lectura.hidden = true);
 addEventListener('keydown', e => { if (e.key === 'Escape') lectura.hidden = true; });
 
-pintar({ n: 'Tu familia', m: 'Tu corazón siempre estuvo dispuesto a dar. Te llevamos con amor.' });
+
 
 let guardar = null;
 if (usaNube) {
